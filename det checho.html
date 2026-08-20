@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duolingo English Test — Master Prep (Score 115+)</title>
+<style>
+  :root{
+    --navy:#0f172a;
+    --navy2:#1e293b;
+    --duo-green:#58cc02;
+    --duo-green-dark:#46a302;
+    --purple:#8b5cf6;
+    --pink:#ec4899;
+    --amber:#f59e0b;
+    --red:#ef4444;
+    --paper:#f8fafc;
+    --card:#ffffff;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --radius:16px;
+    --shadow:0 8px 24px rgba(15,23,42,0.08);
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+  body{min-height:100vh;}
+
+  header.topbar{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy2) 100%);
+    color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:50;
+    box-shadow:0 4px 18px rgba(0,0,0,.15);
+  }
+  .topbar-inner{max-width:1150px;margin:0 auto;}
+  .badge{
+    display:inline-block;background:var(--duo-green);color:#fff;font-size:11px;font-weight:800;
+    letter-spacing:1px;padding:5px 12px;border-radius:20px;text-transform:uppercase;margin-bottom:8px;
+  }
+  header.topbar h1{margin:0 0 4px;font-size:clamp(18px,3.6vw,26px);}
+  header.topbar p{margin:0 0 12px;color:#94a3b8;font-size:13px;}
+
+  nav.phasenav{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.phasenav button{
+    flex:1 1 100px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+    color:#e2e8f0;padding:8px 6px;border-radius:10px;font-size:11.5px;font-weight:600;cursor:pointer;
+    transition:.2s;text-align:center;
+  }
+  nav.phasenav button .num{display:block;font-size:9.5px;font-weight:800;color:var(--amber);letter-spacing:1px;margin-bottom:2px;}
+  nav.phasenav button.active{background:var(--purple);border-color:var(--purple);color:#fff;}
+  nav.phasenav button:hover:not(.active){background:rgba(255,255,255,0.16);}
+
+  .progress-outer{height:6px;background:rgba(255,255,255,0.15);border-radius:6px;margin-top:10px;overflow:hidden;}
+  .progress-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--duo-green),var(--purple));transition:width .4s ease;}
+
+  main{max-width:1150px;margin:0 auto;padding:26px 18px 70px;}
+  .phase{display:none;animation:fadeIn .4s ease;}
+  .phase.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .phase-title{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .phase-title .bar{width:5px;height:26px;background:var(--purple);border-radius:3px;}
+  .phase-title h2{margin:0;font-size:clamp(19px,3.2vw,25px);}
+  .phase-sub{color:var(--muted);margin:0 0 22px;font-size:14.5px;max-width:760px;}
+
+  /* CARD & STEPPER */
+  .stepper-card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 24px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;max-width:640px;margin:0 auto;
+  }
+  .stepper-text{font-size:clamp(20px,4vw,30px);font-weight:800;color:var(--navy);margin-bottom:6px;min-height:40px;}
+  .stepper-hint{font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;}
+  .speak-btn{background:var(--purple);border:none;color:#fff;width:44px;height:44px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:.15s;}
+  .speak-btn:hover{background:var(--navy);}
+  
+  .nav-btn{
+    background:var(--navy);color:#fff;border:none;padding:12px 22px;border-radius:10px;font-weight:700;
+    cursor:pointer;font-size:14px;transition:.15s;margin-top:16px;
+  }
+  .nav-btn:hover{background:var(--purple);}
+
+  /* EXERCISES */
+  .fb-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;max-width:780px;margin:0 auto;}
+  .fb-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;}
+  .fb-choice{background:#f1f5f9;border:2px solid #e2e8f0;border-radius:12px;padding:14px;font-weight:700;font-size:14.5px;
+    cursor:pointer;text-align:center;transition:.15s;}
+  .fb-choice:hover{border-color:var(--purple);}
+  .fb-choice.correct{background:#dcfce7;border-color:var(--duo-green);color:var(--duo-green-dark);}
+  .fb-choice.wrong{background:#fee2e2;border-color:var(--red);color:var(--red);}
+
+  /* SPEECH */
+  .mic-btn{width:78px;height:78px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:30px;
+    cursor:pointer;box-shadow:0 6px 18px rgba(239,68,68,.35);transition:.15s;margin:16px auto;}
+  .mic-btn.listening{animation:pulse 1s infinite;background:#dc2626;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6);}70%{box-shadow:0 0 0 20px rgba(239,68,68,0);}100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}}
+
+  footer.bottom{text-align:center;color:var(--muted);font-size:12px;padding:20px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="badge">Duolingo English Test · Prep Course</span>
+    <h1>DET Master Training — Interactive Practice</h1>
+    <p>Target Score: 115+ (B2/C1 Level) · Production &amp; Reading Mastery</p>
+    <nav class="phasenav" id="phaseNav">
+      <button class="phase-btn active" data-phase="1"><span class="num">SECTION 1</span>Vocabulary</button>
+      <button class="phase-btn" data-phase="2"><span class="num">SECTION 2</span>Linking Words</button>
+      <button class="phase-btn" data-phase="3"><span class="num">SECTION 3</span>Listening</button>
+      <button class="phase-btn" data-phase="4"><span class="num">SECTION 4</span>Complete Text</button>
+      <button class="phase-btn" data-phase="5"><span class="num">SECTION 5</span>Read &amp; Speak</button>
+    </nav>
+    <div class="progress-outer"><div class="progress-inner" id="topProgress"></div></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SECTION 1: VOCABULARY -->
+  <section class="phase active" id="phase1">
+    <div class="phase-title"><span class="bar"></span><h2>Section 1: High-Impact B2/C1 Vocabulary</h2></div>
+    <p class="phase-sub">Aprende palabras estratégicas que suben tu puntaje en la evaluación automatizada de Duolingo.</p>
+    <div class="stepper-card">
+      <div class="stepper-hint" id="wordHint">VOCABULARY WORD 1 OF 3</div>
+      <div class="stepper-text" id="wordText">Substantial</div>
+      <p id="wordMeaning" style="color:var(--muted);font-size:14px;margin-bottom:12px;">Significado: Grande, importante o significativo.</p>
+      <p id="wordSentence" style="font-style:italic;color:var(--navy);font-weight:600;">"There has been a substantial increase in online learning."</p>
+      <button class="speak-btn" id="vocabSpeakBtn">🔊</button>
+      <br>
+      <button class="nav-btn" id="nextVocabBtn">Siguiente Palabra →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2: LINKING WORDS -->
+  <section class="phase" id="phase2">
+    <div class="phase-title"><span class="bar"></span><h2>Section 2: Conectores y Transiciones</h2></div>
+    <p class="phase-sub">Selecciona el conector adecuado para unir dos ideas correctamente en el examen.</p>
+    <div class="fb-card">
+      <div class="stepper-hint">EJERCICIO DE TRANSICIÓN</div>
+      <p style="font-size:16px;font-weight:600;margin-bottom:18px;">
+        "The weather forecast predicted heavy rain all afternoon; <span style="color:var(--purple);border-bottom:2px solid;">[ ? ]</span>, the outdoor festival was canceled."
+      </p>
+      <div class="fb-choices" id="linkChoices">
+        <div class="fb-choice" data-correct="true">Therefore</div>
+        <div class="fb-choice" data-correct="false">However</div>
+        <div class="fb-choice" data-correct="false">Although</div>
+        <div class="fb-choice" data-correct="false">Despite</div>
+      </div>
+      <div id="linkFeedback" style="margin-top:16px;font-weight:700;"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: LISTEN & CHOOSE -->
+  <section class="phase" id="phase3">
+    <div class="phase-title"><span class="bar"></span><h2>Section 3: Interactive Listening</h2></div>
+    <p class="phase-sub">Escucha el audio y responde la pregunta de comprensión.</p>
+    <div class="fb-card" style="text-align:center;">
+      <button class="speak-btn" id="listenPlayBtn" style="width:64px;height:64px;font-size:28px;">🔊</button>
+      <p style="color:var(--muted);font-size:13px;margin-top:8px;">Haz clic para escuchar el prompt</p>
+      <p style="font-weight:700;font-size:16px;margin-top:20px;">¿Cuál es la idea principal del audio?</p>
+      <div class="fb-choices" id="listenChoices">
+        <div class="fb-choice" data-correct="true">Explicar una decisión sobre el horario académico.</div>
+        <div class="fb-choice" data-correct="false">Cancelar una reunión de trabajo.</div>
+        <div class="fb-choice" data-correct="false">Comprar materiales escolares.</div>
+      </div>
+      <div id="listenFeedback" style="margin-top:16px;font-weight:700;"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: COMPLETE THE TEXT -->
+  <section class="phase" id="phase4">
+    <div class="phase-title"><span class="bar"></span><h2>Section 4: Complete the Text</h2></div>
+    <p class="phase-sub">Completa los espacios en blanco para mantener la coherencia del párrafo.</p>
+    <div class="fb-card">
+      <p style="font-size:16px;line-height:1.6;">
+        Many students prefer studying in libraries because of the quiet environment. 
+        <strong>[ _____ ]</strong>, during exam weeks, finding an empty seat can become extremely challenging.
+      </p>
+      <div class="fb-choices" id="textChoices">
+        <div class="fb-choice" data-correct="false">Consequently</div>
+        <div class="fb-choice" data-correct="true">However</div>
+        <div class="fb-choice" data-correct="false">In addition</div>
+      </div>
+      <div id="textFeedback" style="margin-top:16px;font-weight:700;"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: READ THEN SPEAK -->
+  <section class="phase" id="phase5">
+    <div class="phase-title"><span class="bar"></span><h2>Section 5: Simulador Read then Speak</h2></div>
+    <p class="phase-sub">Habla durante 90 segundos sobre el tema propuesto usando tu micrófono.</p>
+    <div class="fb-card" style="text-align:center;">
+      <p style="font-size:18px;font-weight:800;color:var(--navy);">
+        "Describe a book or movie that made a lasting impression on you. Why did it impress you?"
+      </p>
+      <p style="color:var(--muted);font-size:13px;">Presiona el micrófono y responde en inglés:</p>
+      <button class="mic-btn" id="micBtn">🎙️</button>
+      <div id="speakTranscript" style="margin-top:12px;font-style:italic;color:var(--muted);">&nbsp;</div>
+      <div id="speakFeedback" style="margin-top:12px;font-weight:700;"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bottom">🎓 Duolingo English Test Prep · <span>Mastering Score 115+</span></footer>
+
+<script>
+/* SÍNTESIS DE VOZ (Audio) */
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
+/* NAVEGACIÓN ENTRE SECCIONES */
+const phaseBtns = document.querySelectorAll('.phase-btn');
+const phases = document.querySelectorAll('.phase');
+
+function goToPhase(n){
+  phases.forEach(p => p.classList.remove('active'));
+  phaseBtns.forEach(b => b.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelector(`.phase-btn[data-phase="${n}"]`).classList.add('active');
+  document.getElementById('topProgress').style.width = (n/5*100)+'%';
+}
+
+phaseBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=> goToPhase(btn.dataset.phase));
+});
+
+/* SECCIÓN 1: VOCABULARIO */
+const vocabList = [
+  {word:'Substantial', meaning:'Grande, importante o significativo.', sentence:'There has been a substantial increase in online learning.'},
+  {word:'Consequently', meaning:'Por lo tanto, como resultado de.', sentence:'He did not study; consequently, he failed the exam.'},
+  {word:'Crucial', meaning:'Extremadamente importante o decisivo.', sentence:'Water is crucial for human survival.'}
+];
+let vocabIdx = 0;
+
+function updateVocab(){
+  const item = vocabList[vocabIdx];
+  document.getElementById('wordHint').textContent = `VOCABULARY WORD ${vocabIdx+1} OF ${vocabList.length}`;
+  document.getElementById('wordText').textContent = item.word;
+  document.getElementById('wordMeaning').textContent = `Significado: ${item.meaning}`;
+  document.getElementById('wordSentence').textContent = `"${item.sentence}"`;
+  speak(item.word + '. ' + item.sentence);
+}
+
+document.getElementById('vocabSpeakBtn').onclick = () => {
+  const item = vocabList[vocabIdx];
+  speak(item.word + '. ' + item.sentence);
+};
+
+document.getElementById('nextVocabBtn').onclick = () => {
+  vocabIdx = (vocabIdx + 1) % vocabList.length;
+  updateVocab();
+};
+
+/* SECCIÓN 2 Y 4: LÓGICA DE OPCIONES */
+function setupChoiceGroup(containerId, feedbackId){
+  const container = document.getElementById(containerId);
+  const feedback = document.getElementById(feedbackId);
+  container.querySelectorAll('.fb-choice').forEach(choice => {
+    choice.addEventListener('click', () => {
+      const isCorrect = choice.dataset.correct === 'true';
+      if(isCorrect){
+        choice.classList.add('correct');
+        feedback.textContent = '✅ ¡Correcto! Excelente elección.';
+        feedback.style.color = 'var(--duo-green-dark)';
+      } else {
+        choice.classList.add('wrong');
+        feedback.textContent = '❌ Incorrecto. Intenta de nuevo.';
+        feedback.style.color = 'var(--red)';
+        setTimeout(() => choice.classList.remove('wrong'), 500);
+      }
+    });
+  });
+}
+
+setupChoiceGroup('linkChoices', 'linkFeedback');
+setupChoiceGroup('listenChoices', 'listenFeedback');
+setupChoiceGroup('textChoices', 'textFeedback');
+
+/* AUDIO LISTENING */
+document.getElementById('listenPlayBtn').onclick = () => {
+  speak("The university library will adjust its operating hours starting next Monday to accommodate exam preparation.");
+};
+
+/* SECCIÓN 5: RECONOCIMIENTO DE VOZ (MICRÓFONO) */
+const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+const micBtn = document.getElementById('micBtn');
+
+if(SpeechAPI){
+  const rec = new SpeechAPI();
+  rec.lang = 'en-US';
+  
+  micBtn.onclick = () => {
+    rec.start();
+    micBtn.classList.add('listening');
+    document.getElementById('speakTranscript').textContent = 'Escuchando tu respuesta en inglés...';
+  };
+
+  rec.onresult = (e) => {
+    micBtn.classList.remove('listening');
+    const text = e.results[0][0].transcript;
+    document.getElementById('speakTranscript').textContent = `Dijiste: "${text}"`;
+    document.getElementById('speakFeedback').textContent = '✅ ¡Excelente intento! Recuerda mantener la fluidez sin pausas largas.';
+    document.getElementById('speakFeedback').style.color = 'var(--duo-green-dark)';
+  };
+
+  rec.onerror = () => {
+    micBtn.classList.remove('listening');
+    document.getElementById('speakFeedback').textContent = '⚠️ Error con el micrófono. Revisa los permisos de tu navegador.';
+    document.getElementById('speakFeedback').style.color = 'var(--red)';
+  };
+} else {
+  document.getElementById('speakTranscript').textContent = 'Tu navegador no soporta reconocimiento de voz directo (prueba en Google Chrome).';
+}
+</script>
+</body>
+</html>
